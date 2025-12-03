@@ -1,0 +1,198 @@
+/* ============================
+    GLOBAL STYLE
+=============================== */
+body {
+    background: #0d0d0d;
+    font-family: "Poppins", sans-serif;
+    color: #e5e5e5;
+    overflow-x: hidden;
+}
+
+/* Smooth fade animation */
+.fade-in {
+    animation: fadeIn 0.8s ease forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================
+    GAME CARD
+=============================== */
+.game-card {
+    background: rgba(20, 40, 30, 0.45);
+    border: 1px solid rgba(92, 255, 132, 0.15);
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    padding: 0;
+    box-shadow: 0 0 20px rgba(20, 255, 100, 0.1);
+    transition: 0.3s ease;
+    animation: fadeIn 0.7s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 25px rgba(92, 255, 132, 0.2);
+}
+
+/* HEADER */
+.game-card .card-header {
+    padding: 15px 18px;
+    border-bottom: 1px solid rgba(92, 255, 132, 0.2);
+    background: linear-gradient(to right, #1f3d2b, #15271e);
+    border-radius: 18px 18px 0 0;
+}
+
+.game-card .card-header h5 {
+    color: #7CFF4F;
+    font-weight: 600;
+}
+
+/* CONTENT BODY */
+.game-card .card-body {
+    padding: 20px 22px;
+}
+
+/* ============================
+    TRIBE BADGE
+=============================== */
+.tribe-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #1f3d2b;
+    color: #7CFF4F;
+    font-size: 14px;
+    border-radius: 25px;
+    border: 1px solid rgba(92, 255, 132, 0.25);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ============================
+    STAT GRID
+=============================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 14px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(92, 255, 132, 0.15);
+    transition: 0.3s ease;
+}
+
+.stat-card:hover {
+    background: rgba(0, 0, 0, 0.55);
+    transform: translateY(-3px);
+}
+
+.stat-number {
+    font-size: 20px;
+    font-weight: 700;
+    color: #D4AF37; /* Gold */
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #91c7a3;
+}
+
+/* Colors by class */
+.stat-card.gold .stat-number { color: #FFD700; }
+.stat-card.troops .stat-number { color: #7CFF4F; }
+.stat-card.power .stat-number { color: #ff5757; }
+
+/* ============================
+    BUTTONS
+=============================== */
+.btn-game {
+    background: #1f3d2b;
+    border: 1px solid #7CFF4F;
+    color: #7CFF4F;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+.btn-game:hover {
+    background: #7CFF4F;
+    color: #0d0d0d;
+}
+
+.btn-game.danger {
+    border-color: #ff5757;
+    color: #ff5757;
+}
+
+.btn-game.danger:hover {
+    background: #ff5757;
+    color: #0d0d0d;
+}
+
+.btn-game.success {
+    border-color: #4affb8;
+    color: #4affb8;
+}
+
+.btn-game.success:hover {
+    background: #4affb8;
+    color: #0d0d0d;
+}
+
+/* ============================
+    TABLE (RECENT BATTLES)
+=============================== */
+.table {
+    color: #e5e5e5 !important;
+}
+
+.table thead {
+    background: #1f3d2b;
+    color: #7CFF4F;
+    border-bottom: 2px solid rgba(92, 255, 132, 0.3);
+}
+
+.table tbody tr {
+    transition: 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background: rgba(124, 255, 79, 0.08);
+}
+
+/* ============================
+    ANIMATIONS
+=============================== */
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 6px rgba(92, 255, 132, 0.1); }
+    50% { box-shadow: 0 0 14px rgba(92, 255, 132, 0.25); }
+    100% { box-shadow: 0 0 6px rgba(92, 255, 132, 0.1); }
+}
+
+.game-card:hover {
+    animation: pulseGlow 1.6s infinite;
+}
+
+/* ============================
+    SIDEBAR
+=============================== */
+.col-md-3 .game-card {
+    margin-bottom: 20px;
+}
+
+/* ============================
+    RESPONSIVE
+=============================== */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

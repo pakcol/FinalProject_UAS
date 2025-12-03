@@ -1,0 +1,305 @@
+:root {
+    --primary: #202a3f;
+    --secondary: #2c3e55;
+    --accent: #6fb7ff;
+    --gold: #ffd27f;
+    --danger: #ff6b6b;
+    --success: #4fd1a1;
+    --soft-white: rgba(255,255,255,0.9);
+
+    --bg-soft-1: rgba(255,255,255,0.05);
+    --bg-soft-2: rgba(255,255,255,0.08);
+    --glass-strong: rgba(255,255,255,0.12);
+
+    --shadow-light: 0 0 18px rgba(0,0,0,0.15);
+    --shadow-soft: 0 0 30px rgba(0,0,0,0.20);
+
+    --transition-fast: 0.2s ease;
+    --transition-med: 0.35s ease;
+    --transition-slow: 0.7s ease;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, #151c29 0%, #0e141f 100%);
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ============================================================
+   SOFT FOG EFFECT
+   ============================================================ */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url('/images/fog.png') repeat;
+    opacity: 0.08;
+    animation: softFog 60s linear infinite;
+    z-index: -1;
+}
+
+@keyframes softFog {
+    0% { transform: translate(-8%, -8%); }
+    100% { transform: translate(8%, 8%); }
+}
+
+/* ============================================================
+   AUTH CARD
+   ============================================================ */
+.auth-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.auth-card {
+    background: var(--bg-soft-2);
+    border-radius: 18px;
+    padding: 30px;
+    width: 420px;
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: var(--shadow-light);
+    animation: fadeIn 1s ease;
+}
+
+.auth-card:hover {
+    transform: translateY(-5px);
+    transition: var(--transition-med);
+    box-shadow: var(--shadow-soft);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #5062a2, #778cd6);
+    color: white;
+    border-radius: 12px;
+    padding: 1.1rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* ============================================================
+   GAME CONTAINER
+   ============================================================ */
+.game-container {
+    background: var(--bg-soft-1);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-light);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    animation: fadeIn 0.9s ease;
+}
+
+/* ============================================================
+   GAME CARD
+   ============================================================ */
+.game-card {
+    background: var(--glass-strong);
+    border-radius: 18px;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-med);
+    box-shadow: var(--shadow-light);
+}
+
+.game-card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: var(--shadow-soft);
+}
+
+.game-card .card-header {
+    background: linear-gradient(135deg, #2d3a57, #233047);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 15px;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+/* ============================================================
+   STAT CARDS
+   ============================================================ */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(165px,1fr));
+    gap: 1.1rem;
+    margin: 1.6rem 0;
+}
+
+.stat-card {
+    padding: 1.3rem;
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    box-shadow: var(--shadow-light);
+    background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+    backdrop-filter: blur(10px);
+    transition: var(--transition-med);
+}
+
+.stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-soft);
+}
+
+.stat-card.gold { background: linear-gradient(135deg, #ffd991, #d9a74c); }
+.stat-card.troops { background: linear-gradient(135deg, #ff7a7a, #d44d4d); }
+.stat-card.power { background: linear-gradient(135deg, #5fcfaa, #36a07c); }
+
+.stat-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.stat-label {
+    opacity: 0.85;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn-game {
+    padding: 0.8rem 2rem;
+    border-radius: 28px;
+    font-weight: 600;
+    border: none;
+    color: white;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    transition: var(--transition-med);
+    box-shadow: var(--shadow-light);
+    cursor: pointer;
+}
+
+.btn-game:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-game.gold {
+    background: linear-gradient(135deg, #ffcd74, #e7a63a);
+}
+
+.btn-game.danger {
+    background: linear-gradient(135deg, #ff6b6b, #c23c3c);
+}
+
+/* ============================================================
+   BUILDING CARDS
+   ============================================================ */
+.building-card {
+    padding: 1.2rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: var(--bg-soft-1);
+    backdrop-filter: blur(6px);
+    text-align: center;
+    transition: var(--transition-med);
+    cursor: pointer;
+}
+
+.building-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: var(--shadow-soft);
+    border-color: var(--accent);
+}
+
+.building-icon {
+    font-size: 3rem;
+    margin-bottom: 0.6rem;
+    color: var(--accent);
+}
+
+/* ============================================================
+   BATTLE SYSTEM
+   ============================================================ */
+.battle-container {
+    background: var(--glass-strong);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-light);
+}
+
+.attacker-card,
+.defender-card {
+    padding: 1.4rem;
+    border-radius: 18px;
+    border: 2px solid;
+    text-align: center;
+    background: var(--bg-soft-2);
+    backdrop-filter: blur(8px);
+}
+
+.attacker-card {
+    border-color: var(--danger);
+    background: rgba(255, 71, 71, 0.15);
+}
+
+.defender-card {
+    border-color: var(--accent);
+    background: rgba(111, 183, 255, 0.15);
+}
+
+.battle-result {
+    font-size: 1.6rem;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.battle-win {
+    background: linear-gradient(135deg, var(--success), #36b982);
+}
+
+.battle-lose {
+    background: linear-gradient(135deg, #ff6b6b, #c23c3c);
+}
+
+/* ============================================================
+   TRIBE BADGES
+   ============================================================ */
+.tribe-badge {
+    padding: 0.45rem 1rem;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.tribe-warrior { background: linear-gradient(135deg, #ff7a7a, #b83b3b); }
+.tribe-mage { background: linear-gradient(135deg, #6fb7ff, #2e75cc); }
+.tribe-tank { background: linear-gradient(135deg, #5f6a82, #2e3a4b); }
+.tribe-marksman { background: linear-gradient(135deg, #b893d1, #7c5a99); }
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 1rem;
+    }
+
+    .auth-card {
+        width: 95%;
+    }
+}
