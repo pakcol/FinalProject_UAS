@@ -14,18 +14,24 @@ class KingdomBuilding extends Model
         'building_id',
         'quantity',
         'level',
+        'last_production_at',
     ];
 
     protected $casts = [
-        'quantity' => 'integer',
-        'level' => 'integer',
+        'last_production_at' => 'datetime',
     ];
 
+    /**
+     * Get the kingdom that owns this building
+     */
     public function kingdom()
     {
         return $this->belongsTo(Kingdom::class);
     }
 
+    /**
+     * Get the building details
+     */
     public function building()
     {
         return $this->belongsTo(Building::class);
@@ -36,16 +42,22 @@ class KingdomBuilding extends Model
      */
     public function getTotalGoldProductionAttribute()
     {
-        return $this->building->gold_production * $this->quantity * $this->level;
+        return $this->building->gold_production * $this->quantity;
     }
 
+    /**
+     * Get total troop production from this building
+     */
     public function getTotalTroopProductionAttribute()
     {
-        return $this->building->troop_production * $this->quantity * $this->level;
+        return $this->building->troop_production * $this->quantity;
     }
 
+    /**
+     * Get total defense bonus from this building
+     */
     public function getTotalDefenseBonusAttribute()
     {
-        return $this->building->defense_bonus * $this->quantity * $this->level;
+        return $this->building->defense_bonus * $this->quantity;
     }
 }
