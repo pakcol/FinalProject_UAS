@@ -7,8 +7,10 @@ use App\Models\Building;
 use App\Models\Kingdom;
 use App\Models\User;
 use App\Models\Battle;
+use App\Models\KingdomBuilding;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -19,21 +21,80 @@ class AdminController extends Controller
     }
 
     public function tribes()
-{
-    $tribes = Tribe::all();
-    return view('admin.tribes', compact('tribes'));
-}
+    {
+        $tribes = Tribe::all();
+        return view('admin.tribes', compact('tribes'));
+    }
 
     public function dashboard()
     {
+        // Basic Stats
         $stats = [
             'total_users' => User::count(),
-            'total_kingdoms' => Kingdom::count(),
-            'total_battles' => Battle::count(),
-            'active_tribes' => Tribe::where('is_active', true)->count()
+            'total_kingdoms' => Kingdom::whereNotNull('user_id')->count(), // Exclude AI bots
+            'total_buildings' => Building::count(),
+            'active_buildings' => Building::where('is_active', 1)->count(),
+            'total_battles' => Battle::where('type', '!=', 'training')->count(),
+            'training_battles' => Battle::where('type', 'training')->count(),
         ];
 
-        return view('admin.dashboard', compact('stats'));
+        // Tribe Distribution
+        $tribeDistribution = Kingdom::whereNotNull('user_id')
+            ->select('tribe_id', DB::raw('count(*) as total'))
+            ->groupBy('tribe_id')
+            ->with('tribe')
+            ->get()
+            ->map(function($item) {
+                return [
+                    'name' => $item->tribe->name,
+                    'count' => $item->total
+                ];
+            });
+
+        // User Registration Trend (Last 7 days)
+        $registrationTrend = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $count = User::whereDate('created_at', $date->format('Y-m-d'))->count();
+            $registrationTrend[] = [
+                'date' => $date->format('M d'),
+                'count' => $count
+            ];
+        }
+
+        // Recent Activities
+        $recentBattles = Battle::with(['attacker', 'defender'])
+            ->where('type', '!=', 'training')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $recentUsers = User::with('kingdom')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $recentBuildings = KingdomBuilding::with(['kingdom', 'building'])
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Top Players by Power
+        $topPlayers = Kingdom::with(['user', 'tribe'])
+            ->whereNotNull('user_id')
+            ->orderBy('total_attack_power', 'desc')
+            ->take(5)
+            ->get();
+
+        return view('admin.dashboard', compact(
+            'stats',
+            'tribeDistribution',
+            'registrationTrend',
+            'recentBattles',
+            'recentUsers',
+            'recentBuildings',
+            'topPlayers'
+        ));
     }
 
     public function tribeSettings()
