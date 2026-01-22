@@ -42,6 +42,9 @@
                     <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                         <i class="fas fa-tachometer-alt"></i> Dashboard
                     </a>
+                    <a class="nav-link {{ request()->routeIs('admin.tribes*') ? 'active' : '' }}" href="{{ route('admin.tribes') }}">
+                        <i class="fas fa-users"></i> Tribes
+                    </a>
                     <a class="nav-link {{ request()->routeIs('admin.buildings.*') ? 'active' : '' }}" href="{{ route('admin.buildings.index') }}">
                         <i class="fas fa-building"></i> Buildings
                     </a>
