@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Tribe;
 use App\Models\Building;
 use App\Models\Kingdom;
+use App\Models\User;
+use App\Models\Battle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,12 +18,18 @@ class AdminController extends Controller
         // Add admin check middleware here in production
     }
 
+    public function tribes()
+{
+    $tribes = Tribe::all();
+    return view('admin.tribes', compact('tribes'));
+}
+
     public function dashboard()
     {
         $stats = [
-            'total_users' => \App\Models\User::count(),
+            'total_users' => User::count(),
             'total_kingdoms' => Kingdom::count(),
-            'total_battles' => \App\Models\Battle::count(),
+            'total_battles' => Battle::count(),
             'active_tribes' => Tribe::where('is_active', true)->count()
         ];
 
@@ -36,21 +44,21 @@ class AdminController extends Controller
 
     public function updateTribe(Request $request, $id)
     {
-        $tribe = Tribe::findOrFail($id);
-        
-        $validated = $request->validate([
-            'melee_attack' => 'required|integer|min:0|max:1000',
-            'range_attack' => 'required|integer|min:0|max:1000',
-            'magic_attack' => 'required|integer|min:0|max:1000',
-            'melee_defense' => 'required|integer|min:0|max:1000',
-            'range_defense' => 'required|integer|min:0|max:1000',
-            'magic_defense' => 'required|integer|min:0|max:1000',
-            'troop_production_rate' => 'required|integer|min:1|max:100',
+        $request->validate([
+            'description'     => 'required|string',
+            'melee_attack'    => 'required|integer|min:0',
+            'range_attack'    => 'required|integer|min:0',
+            'magic_attack'    => 'required|integer|min:0',
+            'melee_defense'   => 'required|integer|min:0',
+            'range_defense'   => 'required|integer|min:0',
+            'magic_defense'   => 'required|integer|min:0',
         ]);
 
-        $tribe->update($validated);
+        $tribe = Tribe::findOrFail($id);
 
-        return redirect()->back()->with('success', 'Tribe updated successfully!');
+        $tribe->update($request->all());
+
+        return back()->with('success', 'Tribe updated successfully.');
     }
 
     public function buildingSettings()

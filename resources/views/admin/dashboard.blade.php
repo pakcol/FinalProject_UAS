@@ -13,15 +13,14 @@
         <h2>Admin Dashboard</h2>
     </div>
 
-    <div class="dashboard-content">
-        <div class="dashboard-card">
-            <h4>Building Settings</h4>
-            <p>Edit base production & cost setiap building.</p>
-            <a href="{{ url('admin/buildings') }}" class="btn btn-primary">
-                Manage Buildings
-            </a>
-        </div>
+    <div class="dashboard-card">
+        <h4>Tribe Settings</h4>
+        <p>Edit base attack & defense setiap tribe.</p>
+        <a href="{{ route('admin.tribes') }}" class="btn btn-primary">
+            Manage Tribes
+        </a>
     </div>
+
 
     <form method="POST" action="{{ route('admin.logout') }}" style="margin-top: 20px;">
         @csrf
