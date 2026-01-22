@@ -16,17 +16,26 @@ class BattleController extends Controller
      */
     public function showBattle()
     {
-        $myKingdom = Auth::user()->kingdom;
+        $userKingdom = Auth::user()->kingdom;
+        $userKingdom->updateResources(); // Update resources first
         
         // Get kingdoms that can be attacked (has barracks AND mine)
-        $kingdoms = Kingdom::with(['user', 'tribe', 'kingdomBuildings.building'])
-            ->where('id', '!=', $myKingdom->id)
+        $targetKingdoms = Kingdom::with(['user', 'tribe', 'kingdomBuildings.building'])
+            ->where('id', '!=', $userKingdom->id)
             ->get()
             ->filter(function($kingdom) {
                 return $kingdom->canBeAttacked();
             });
 
-        return view('game.battle', compact('kingdoms', 'myKingdom'));
+        // Get battle history
+        $battleHistory = Battle::where('attacker_id', $userKingdom->id)
+            ->orWhere('defender_id', $userKingdom->id)
+            ->with(['attacker', 'defender'])
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+
+        return view('game.battle', compact('targetKingdoms', 'userKingdom', 'battleHistory'));
     }
 
     /**
@@ -39,6 +48,8 @@ class BattleController extends Controller
         ]);
 
         $attacker = Auth::user()->kingdom;
+        $attacker->updateResources(); // Update resources first
+        
         $defender = Kingdom::with('troops')->findOrFail($request->defender_id);
 
         // Validation
@@ -146,6 +157,8 @@ class BattleController extends Controller
     public function showTraining()
     {
         $kingdom = Auth::user()->kingdom;
+        $kingdom->updateResources();
+        
         return view('game.training', compact('kingdom'));
     }
 
