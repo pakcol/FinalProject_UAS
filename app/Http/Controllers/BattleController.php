@@ -190,7 +190,9 @@ class BattleController extends Controller
         // Get AI kingdoms (kingdoms without user_id = AI/Bots)
         $aiTargets = Kingdom::with(['tribe', 'troops'])
             ->whereNull('user_id') // Kingdoms without users = AI/Bots
-            ->limit(6)
+            ->orderBy('tribe_id')
+            ->orderBy('total_attack_power')
+            ->limit(20) // Increased limit to show all AI bots
             ->get();
         
         // Get training history (battles with type='training')
