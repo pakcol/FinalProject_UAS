@@ -26,12 +26,16 @@ class AdminBuildingController extends Controller
             'description' => 'required|string',
             'gold_cost' => 'required|integer|min:0',
             'level' => 'required|integer|min:1',
-            'gold_production' => 'required|integer|min:0',
-            'troop_production' => 'required|integer|min:0',
-            'defense_bonus' => 'required|integer|min:0',
-            'is_active' => 'boolean',
+            'gold_production' => 'nullable|integer|min:0',
+            'troop_production' => 'nullable|integer|min:0',
+            'defense_bonus' => 'nullable|integer|min:0',
+            'is_active' => 'nullable|boolean',
         ]);
 
+        // Set default values for nullable fields
+        $validated['gold_production'] = $validated['gold_production'] ?? 0;
+        $validated['troop_production'] = $validated['troop_production'] ?? 0;
+        $validated['defense_bonus'] = $validated['defense_bonus'] ?? 0;
         $validated['is_active'] = $request->has('is_active') ? 1 : 0;
 
         Building::create($validated);
@@ -53,12 +57,16 @@ class AdminBuildingController extends Controller
             'description' => 'required|string',
             'gold_cost' => 'required|integer|min:0',
             'level' => 'required|integer|min:1',
-            'gold_production' => 'required|integer|min:0',
-            'troop_production' => 'required|integer|min:0',
-            'defense_bonus' => 'required|integer|min:0',
-            'is_active' => 'boolean',
+            'gold_production' => 'nullable|integer|min:0',
+            'troop_production' => 'nullable|integer|min:0',
+            'defense_bonus' => 'nullable|integer|min:0',
+            'is_active' => 'nullable|boolean',
         ]);
 
+        // Set default values for nullable fields
+        $validated['gold_production'] = $validated['gold_production'] ?? 0;
+        $validated['troop_production'] = $validated['troop_production'] ?? 0;
+        $validated['defense_bonus'] = $validated['defense_bonus'] ?? 0;
         $validated['is_active'] = $request->has('is_active') ? 1 : 0;
 
         $building->update($validated);
