@@ -45,6 +45,7 @@ class GameController extends Controller
     public function rankings()
     {
         $kingdoms = Kingdom::with('user', 'tribe')
+            ->whereNotNull('user_id') // Exclude AI training bots
             ->orderBy('total_attack_power', 'desc')
             ->paginate(10);
 
