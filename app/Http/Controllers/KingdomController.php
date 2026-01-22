@@ -21,6 +21,21 @@ class KingdomController extends Controller
     }
 
     /**
+     * Get current resources (for AJAX updates)
+     */
+    public function getResources()
+    {
+        $kingdom = Auth::user()->kingdom;
+        
+        return response()->json([
+            'gold' => $kingdom->gold,
+            'troops' => $kingdom->total_troops,
+            'gold_formatted' => number_format($kingdom->gold),
+            'troops_formatted' => number_format($kingdom->total_troops),
+        ]);
+    }
+
+    /**
      * Purchase a building
      */
     public function purchaseBuilding(Request $request)
