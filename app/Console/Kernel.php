@@ -12,7 +12,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Generate gold every minute for all kingdoms
+        $schedule->command('game:generate-gold')
+                 ->everyMinute()
+                 ->withoutOverlapping()
+                 ->runInBackground();
+
+        // Generate troops every minute for kingdoms with barracks
+        $schedule->command('game:generate-troops')
+                 ->everyMinute()
+                 ->withoutOverlapping()
+                 ->runInBackground();
     }
 
     /**
