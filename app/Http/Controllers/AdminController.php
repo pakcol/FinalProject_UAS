@@ -139,14 +139,23 @@ class AdminController extends Controller
         $building = Building::findOrFail($id);
         
         $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|in:main,barracks,mine,walls,other',
+            'description' => 'required|string',
             'gold_cost' => 'required|integer|min:0',
-            'gold_production' => 'required|integer|min:0',
-            'troop_production' => 'required|integer|min:0',
-            'defense_bonus' => 'required|integer|min:0',
+            'level' => 'required|integer|min:1',
+            'gold_production' => 'nullable|integer|min:0',
+            'troop_production' => 'nullable|integer|min:0',
+            'defense_bonus' => 'nullable|integer|min:0',
         ]);
 
+        // Handle checkbox (is_active)
+        $validated['is_active'] = $request->has('is_active') ? 1 : 0;
+
+        // Update building
         $building->update($validated);
 
-        return redirect()->back()->with('success', 'Building updated successfully!');
+        return redirect()->route('admin.buildings.index')
+            ->with('success', 'Building "' . $building->name . '" updated successfully!');
     }
 }
