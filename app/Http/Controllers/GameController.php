@@ -27,6 +27,7 @@ class GameController extends Controller
         $kingdom = $user->kingdom;
 
         // Update resource sebelum tampil
+        $kingdom->updateResources();
         $this->resourceService->updateKingdomResources($kingdom);
 
         $recentBattles = Battle::where('attacker_id', $kingdom->id)
@@ -57,6 +58,9 @@ class GameController extends Controller
     {
         $user = Auth::user();
         $kingdom = $user->kingdom;
+
+        // Update resources
+        $kingdom->updateResources();
 
         // Ambil semua troop milik kingdom
         $troops = Troop::where('kingdom_id', $kingdom->id)->get();
