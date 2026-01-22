@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [GameController::class, 'dashboard'])->name('game.dashboard');
     Route::get('/rankings', [GameController::class, 'rankings'])->name('game.rankings');
     Route::get('/troops', [GameController::class, 'troops'])->name('game.troops');
+    Route::get('/resources', [KingdomController::class, 'getResources'])->name('game.resources');
 
     // Buildings Management
     Route::get('/buildings', [KingdomController::class, 'showBuildings'])->name('kingdom.buildings');
