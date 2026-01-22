@@ -14,11 +14,8 @@ class Battle extends Model
         'defender_id',
         'attacker_troops',
         'defender_troops',
-        'attacker_power',
-        'defender_power',
         'gold_stolen',
-        'result',
-        'battle_log',
+        'winner_id',
         'type'
     ];
 
@@ -30,5 +27,10 @@ class Battle extends Model
     public function defender()
     {
         return $this->belongsTo(Kingdom::class, 'defender_id');
+    }
+    
+    public function winner()
+    {
+        return $this->belongsTo(Kingdom::class, 'winner_id');
     }
 }
