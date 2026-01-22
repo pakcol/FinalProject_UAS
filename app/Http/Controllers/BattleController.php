@@ -50,6 +50,8 @@ class BattleController extends Controller
         $attacker = Auth::user()->kingdom;
         $attacker->updateResources(); // Update resources first
         
+        // Eager load troops
+        $attacker->load('troops');
         $defender = Kingdom::with('troops')->findOrFail($request->defender_id);
 
         // Validation 1: Cannot attack yourself
@@ -91,7 +93,7 @@ class BattleController extends Controller
                 $powerDifference = $attackPower - $defensePower;
                 $defenderTroops = $defender->troops;
                 
-                if ($defenderTroops) {
+                if ($defenderTroops && $defenderTroops->quantity > 0) {
                     $troopsKilled = (int) min($defenderTroops->quantity, ceil($powerDifference / 10));
                     $defenderTroops->decrement('quantity', $troopsKilled);
                     $defender->update(['total_troops' => $defenderTroops->quantity]);
@@ -107,6 +109,19 @@ class BattleController extends Controller
             } else {
                 // DEFENDER WINS - All attacker troops die
                 $attackerTroops = $attacker->troops;
+                
+                if (!$attackerTroops) {
+                    // Should not happen due to validation, but safe fallback
+                    $result = [
+                        'success' => false,
+                        'message' => "Defeat! Battle error - no troops found.",
+                        'gold_stolen' => 0,
+                        'attacker_troops_lost' => 0,
+                        'defender_troops_lost' => 0,
+                    ];
+                    return;
+                }
+                
                 $attackerTroopsKilled = $attackerTroops->quantity;
                 
                 $attackerTroops->update(['quantity' => 0]);
