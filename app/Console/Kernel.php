@@ -18,8 +18,8 @@ class Kernel extends ConsoleKernel
                  ->withoutOverlapping()
                  ->runInBackground();
 
-        // Generate troops every minute for kingdoms with barracks
-        $schedule->command('game:generate-troops')
+        // Produce troops every minute for kingdoms with barracks
+        $schedule->command('game:produce-troops')
                  ->everyMinute()
                  ->withoutOverlapping()
                  ->runInBackground();
