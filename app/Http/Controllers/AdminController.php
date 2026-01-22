@@ -39,7 +39,7 @@ class AdminController extends Controller
         ];
 
         // Tribe Distribution
-        $tribeDistribution = Kingdom::whereNotNull('user_id')
+        $tribeDistributionData = Kingdom::whereNotNull('user_id')
             ->select('tribe_id', DB::raw('count(*) as total'))
             ->groupBy('tribe_id')
             ->with('tribe')
@@ -50,17 +50,23 @@ class AdminController extends Controller
                     'count' => $item->total
                 ];
             });
+        
+        // Convert to collection
+        $tribeDistribution = collect($tribeDistributionData);
 
         // User Registration Trend (Last 7 days)
-        $registrationTrend = [];
+        $registrationTrendData = [];
         for ($i = 6; $i >= 0; $i--) {
             $date = now()->subDays($i);
             $count = User::whereDate('created_at', $date->format('Y-m-d'))->count();
-            $registrationTrend[] = [
+            $registrationTrendData[] = [
                 'date' => $date->format('M d'),
                 'count' => $count
             ];
         }
+        
+        // Convert to collection
+        $registrationTrend = collect($registrationTrendData);
 
         // Recent Activities
         $recentBattles = Battle::with(['attacker', 'defender'])
