@@ -8,6 +8,7 @@ use App\Http\Controllers\BattleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminBuildingController;
+use App\Http\Controllers\TribeAppearanceController;
 use App\Http\Controllers\Auth\RegisterController;
 
 /*
@@ -86,6 +87,18 @@ Route::middleware('web')->prefix('admin')->group(function () {
         
         Route::patch('buildings/{building}/toggle', [AdminBuildingController::class, 'toggleActive'])
             ->name('admin.buildings.toggle');
+
+        // Tribe Appearance Management
+        Route::prefix('appearance')->name('admin.appearance.')->group(function () {
+            Route::get('/', [TribeAppearanceController::class, 'index'])->name('index');
+            Route::get('/create', [TribeAppearanceController::class, 'create'])->name('create');
+            Route::post('/', [TribeAppearanceController::class, 'store'])->name('store');
+            Route::get('/{appearance}/edit', [TribeAppearanceController::class, 'edit'])->name('edit');
+            Route::put('/{appearance}', [TribeAppearanceController::class, 'update'])->name('update');
+            Route::delete('/{appearance}', [TribeAppearanceController::class, 'destroy'])->name('destroy');
+            Route::patch('/{appearance}/toggle', [TribeAppearanceController::class, 'toggleActive'])->name('toggle');
+            Route::patch('/{appearance}/set-default', [TribeAppearanceController::class, 'setDefault'])->name('set-default');
+        });
 
         // Legacy routes (keep for backward compatibility)
         Route::get('/tribes', [AdminController::class, 'tribes'])
