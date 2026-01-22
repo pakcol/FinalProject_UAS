@@ -22,14 +22,13 @@ class AdminBuildingController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
+            'type' => 'required|in:main,barracks,mine,walls,other',
             'description' => 'required|string',
             'gold_cost' => 'required|integer|min:0',
             'level' => 'required|integer|min:1',
             'gold_production' => 'nullable|integer|min:0',
             'troop_production' => 'nullable|integer|min:0',
             'defense_bonus' => 'nullable|integer|min:0',
-            'is_active' => 'nullable|boolean',
         ]);
 
         // Set default values for nullable fields
@@ -53,14 +52,13 @@ class AdminBuildingController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
+            'type' => 'required|in:main,barracks,mine,walls,other',
             'description' => 'required|string',
             'gold_cost' => 'required|integer|min:0',
             'level' => 'required|integer|min:1',
             'gold_production' => 'nullable|integer|min:0',
             'troop_production' => 'nullable|integer|min:0',
             'defense_bonus' => 'nullable|integer|min:0',
-            'is_active' => 'nullable|boolean',
         ]);
 
         // Set default values for nullable fields
@@ -72,7 +70,7 @@ class AdminBuildingController extends Controller
         $building->update($validated);
 
         return redirect()->route('admin.buildings.index')
-            ->with('success', 'Building updated successfully!');
+            ->with('success', 'Building "' . $building->name . '" updated successfully!');
     }
 
     public function destroy(Building $building)
